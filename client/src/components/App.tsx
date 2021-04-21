@@ -27,7 +27,7 @@ function App() {
       (event.target as typeof event.target & UserForm).email.value
     );
 
-    history.push(`/customer?id=${customer.id}`);
+    if (customer.id) history.push(`/customer?id=${customer.id}`);
   }
 
   return (
