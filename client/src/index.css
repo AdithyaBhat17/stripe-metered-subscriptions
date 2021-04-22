@@ -22,7 +22,9 @@ label {
 }
 
 button,
-table {
+table,
+select,
+input {
   font-family: Inter, sans-serif;
 }
 

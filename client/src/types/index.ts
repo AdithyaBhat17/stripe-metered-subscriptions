@@ -6,3 +6,5 @@ export interface UserForm {
 export interface Customer {
   id: string;
 }
+
+export type CloudStorage = "aws" | "azure" | "gcp";
