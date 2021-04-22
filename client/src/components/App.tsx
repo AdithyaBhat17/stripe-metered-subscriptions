@@ -5,17 +5,8 @@ import { css, jsx } from "@emotion/react";
 import { FormEvent } from "react";
 import { useHistory } from "react-router-dom";
 import { FormGroup, PrimaryButton, UserDetails } from "../styles";
-import { Customer, UserForm } from "../types";
-import { fetcher } from "../utils/fetcher";
-async function createCustomer(name: string, email: string): Promise<Customer> {
-  return await fetcher("/create-customer", {
-    method: "POST",
-    body: JSON.stringify({
-      email,
-      name,
-    }),
-  });
-}
+import { UserForm } from "../types";
+import { createCustomer } from "../utils/api";
 
 function App() {
   const history = useHistory();

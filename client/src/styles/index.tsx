@@ -36,13 +36,46 @@ export const FormGroup = styled.div`
     font-size: 0.75rem;
     text-transform: uppercase;
   }
-  input {
+  input,
+  select {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
-    appearance: none;
     border-radius: 0.25rem;
     border: 1px solid #ececec;
     padding: 1rem;
+  }
+
+  select {
+    padding-right: 2rem !important;
+  }
+
+  input {
+    appearance: none;
+  }
+`;
+
+export const Grid = styled.div`
+  padding: 1rem;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  min-height: 100vh;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  @media (max-width: 600px) {
+    padding: 1rem 0;
+  }
+`;
+
+export const GridItem = styled.div`
+  width: 80%;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+
+  @media (max-width: 600px) {
+    width: 90%;
   }
 `;
