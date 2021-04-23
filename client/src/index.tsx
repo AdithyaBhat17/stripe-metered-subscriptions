@@ -6,12 +6,14 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route } from "react-router-dom";
 import Customer from "./components/Customer";
 import { Theme, ThemeProvider } from "@emotion/react";
+import Checkout from "./components/Checkout";
 
-const theme: Theme = {
+export const theme: Theme = {
   color: {
     prussianBlue: "#031f99",
+    celadonBlue: "#2453c6",
     white: "#F6F7FB",
-  },
+  } as const,
 };
 
 ReactDOM.render(
@@ -23,6 +25,9 @@ ReactDOM.render(
         </Route>
         <Route exact path="/customer">
           <Customer />
+        </Route>
+        <Route exact path="/checkout">
+          <Checkout />
         </Route>
       </BrowserRouter>
     </ThemeProvider>
