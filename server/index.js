@@ -35,6 +35,47 @@ app.post("/create-customer", async (req, res) => {
   }
 });
 
+app.post("/create-price", async (req, res) => {
+  const { productMetadata, total, meteredAmount } = req.body;
+
+  if (!total || !meteredAmount)
+    return res
+      .status(400)
+      .send({ success: false, message: "Invalid pricing." });
+
+  try {
+    const price = await stripe.prices.create({
+      currency: "usd",
+      product_data: {
+        name: "Backup Plan",
+        metadata: productMetadata,
+        unit_label: "GB",
+      },
+      recurring: {
+        interval: "month",
+      },
+      billing_scheme: "tiered",
+      tiers: [
+        {
+          flat_amount: total * 100,
+          up_to: "inf",
+          unit_amount: meteredAmount * 100,
+        },
+      ],
+      tiers_mode: "volume",
+    });
+
+    if (!price.id)
+      return res
+        .status(400)
+        .send({ success: false, message: "Failed to create price_id" });
+
+    res.status(200).send({ ...price });
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
+
 app.listen("8080", () => {
   console.log("Server running at http://localhost:8080");
 });

@@ -1,4 +1,4 @@
-import { Customer } from "../types";
+import { Customer, PriceFactors } from "../types";
 import { fetcher } from "./fetcher";
 
 export async function createCustomer(
@@ -10,6 +10,21 @@ export async function createCustomer(
     body: JSON.stringify({
       email,
       name,
+    }),
+  });
+}
+
+export async function createPrice(
+  total: number,
+  meteredAmount: number,
+  productMetadata?: { [key in PriceFactors]: string | undefined }
+): Promise<{ id: string } | { success: false; message: string }> {
+  return await fetcher("/create-price", {
+    method: "POST",
+    body: JSON.stringify({
+      total,
+      meteredAmount,
+      productMetadata,
     }),
   });
 }

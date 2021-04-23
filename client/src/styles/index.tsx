@@ -9,6 +9,17 @@ export const PrimaryButton = styled.button`
   border-radius: 0.25rem;
   background-color: ${({ theme }) => theme.color.prussianBlue};
   color: ${({ theme }) => theme.color.white};
+
+  :hover,
+  :active,
+  :focus {
+    background-color: ${({ theme }) => theme.color.celadonBlue};
+  }
+
+  :disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
 `;
 
 export const UserDetails = styled.form`
@@ -40,7 +51,7 @@ export const FormGroup = styled.div`
   select {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     border-radius: 0.25rem;
     border: 1px solid #ececec;
     padding: 1rem;
@@ -62,7 +73,7 @@ export const Grid = styled.div`
   align-items: center;
   min-height: 100vh;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  gap: 10px;
   @media (max-width: 600px) {
     padding: 1rem 0;
   }
