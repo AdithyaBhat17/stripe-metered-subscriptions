@@ -8,6 +8,7 @@ import Customer from "./components/Customer";
 import { Theme, ThemeProvider } from "@emotion/react";
 import Checkout from "./components/Checkout";
 import { ConfigProvider } from "./context/config";
+import Subscription from "./components/Subscription";
 
 export const theme: Theme = {
   color: {
@@ -30,6 +31,9 @@ ReactDOM.render(
           </Route>
           <Route exact path="/checkout">
             <Checkout />
+          </Route>
+          <Route exact path="/subscription">
+            <Subscription />
           </Route>
         </BrowserRouter>
       </ConfigProvider>
