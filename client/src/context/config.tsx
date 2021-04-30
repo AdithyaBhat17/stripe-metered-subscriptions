@@ -11,9 +11,9 @@ import { ConfigProps, PriceFactors } from "../types";
 const ConfigContext = createContext<
   { [key in PriceFactors]: string | undefined }
 >({
-  vm: "5",
-  csp: "gcp",
-  users: "2",
+  vm: undefined,
+  csp: undefined,
+  users: undefined,
 });
 
 const ConfigUpdates = createContext<ConfigProps["handleConfigUpdates"]>(
@@ -24,6 +24,8 @@ export function ConfigProvider({ children }: { children: ReactChild }) {
   const value = useConfigValue();
 
   const { vm, users, csp, handleConfigUpdates } = value;
+
+  console.log(vm, users, csp);
 
   return (
     <ConfigContext.Provider value={{ vm, users, csp }}>

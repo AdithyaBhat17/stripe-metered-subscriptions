@@ -7,6 +7,8 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Customer from "./components/Customer";
 import { Theme, ThemeProvider } from "@emotion/react";
 import Checkout from "./components/Checkout";
+import { ConfigProvider } from "./context/config";
+import Subscription from "./components/Subscription";
 
 export const theme: Theme = {
   color: {
@@ -19,17 +21,22 @@ export const theme: Theme = {
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Route exact path="/">
-          <App />
-        </Route>
-        <Route exact path="/customer">
-          <Customer />
-        </Route>
-        <Route exact path="/checkout">
-          <Checkout />
-        </Route>
-      </BrowserRouter>
+      <ConfigProvider>
+        <BrowserRouter>
+          <Route exact path="/">
+            <App />
+          </Route>
+          <Route exact path="/customer">
+            <Customer />
+          </Route>
+          <Route exact path="/checkout">
+            <Checkout />
+          </Route>
+          <Route exact path="/subscription">
+            <Subscription />
+          </Route>
+        </BrowserRouter>
+      </ConfigProvider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")

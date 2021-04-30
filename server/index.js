@@ -76,6 +76,64 @@ app.post("/create-price", async (req, res) => {
   }
 });
 
+app.post("/create-subscription", async (req, res) => {
+  try {
+    const { customerId, paymentMethodId, priceId, metadata } = req.body;
+
+    // Set default payment type for customer.
+    await stripe.paymentMethods.attach(paymentMethodId, {
+      customer: customerId,
+    });
+
+    await stripe.customers.update(customerId, {
+      invoice_settings: {
+        default_payment_method: paymentMethodId,
+      },
+    });
+
+    const subscription = await stripe.subscriptions.create({
+      customer: customerId,
+      items: [{ price: priceId, metadata }],
+      expand: ["latest_invoice.payment_intent", "pending_setup_intent"],
+    });
+
+    if (subscription.id) return res.status(200).send(subscription);
+
+    return res
+      .status(400)
+      .send({ success: false, message: "Failed to create a subscription" });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/subscription", async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    if (!id || typeof id !== "string")
+      return res
+        .status(404)
+        .send({ success: false, message: "Invalid subscription ID" });
+
+    const subscription = await stripe.subscriptions.retrieve(id, {
+      expand: ["items.data"],
+    });
+
+    if (!subscription.id)
+      return res
+        .status(400)
+        .send({ success: false, message: "Cannot find subscription" });
+
+    res
+      .status(200)
+      .send({ ...subscription, metadata: subscription.items.data[0].metadata });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
 app.listen("8080", () => {
   console.log("Server running at http://localhost:8080");
 });

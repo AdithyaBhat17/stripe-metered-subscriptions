@@ -1,7 +1,6 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { Redirect } from "react-router";
-import { useConfig } from "../context/config";
 import { useQueryParam } from "../hooks/useQueryParam";
 import { Grid, GridItem } from "../styles";
 import Cart from "./Cart";
@@ -10,9 +9,7 @@ import CheckoutCard from "./CheckoutCard";
 export default function Checkout() {
   const id = useQueryParam("id");
 
-  const { vm } = useConfig();
-
-  if (!id || !vm) return <Redirect to="/" />;
+  if (!id) return <Redirect to="/" />;
 
   return (
     <Grid>

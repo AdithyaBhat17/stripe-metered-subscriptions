@@ -9,12 +9,12 @@ export const price = {
 };
 
 export function totalPrice(
-  vm: string,
-  o365: string,
-  csp: keyof typeof price["csp"] | undefined
+  vm?: string,
+  o365?: string,
+  csp?: keyof typeof price["csp"] | undefined
 ) {
-  let vmCost = Number(vm) * price.vm;
-  let o365Cost = Number(o365) * price.o365;
+  let vmCost = vm ? Number(vm) * price.vm : 0;
+  let o365Cost = o365 ? Number(o365) * price.o365 : 0;
   let cspCost = !csp ? 0 : price.csp[csp];
 
   return {
