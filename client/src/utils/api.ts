@@ -1,5 +1,5 @@
 import { Stripe } from "@stripe/stripe-js";
-import { Customer, PriceFactors } from "../types";
+import { Customer, PaymentActions, PriceFactors } from "../types";
 import { fetcher } from "./fetcher";
 
 export async function createCustomer(
@@ -35,7 +35,7 @@ export async function createSubscription(
   customerId: string,
   paymentMethodId: string,
   priceId: string,
-  metadata?: { [key: string]: any }
+  metadata?: { [key in PriceFactors]?: string }
 ) {
   const data: any = await fetcher("/create-subscription", {
     method: "POST",
@@ -47,25 +47,24 @@ export async function createSubscription(
     }),
   });
   if (data) {
-    console.log(data);
     return await handleCardSetupRequired({
       stripe,
       subscription: data,
       paymentMethodId: paymentMethodId,
       priceId: priceId,
-    }).then(handlePaymentThatRequiresCustomerAction);
+    }).then(async (value) => {
+      if (value !== undefined)
+        return await handlePaymentThatRequiresCustomerAction(value);
+    });
   }
 }
 
 async function handleCardSetupRequired({
   stripe,
   subscription,
-  invoice,
   priceId,
   paymentMethodId,
-}: {
-  [key: string]: any;
-}) {
+}: PaymentActions) {
   let setupIntent = subscription.pending_setup_intent;
 
   if (setupIntent && setupIntent.status === "requires_action") {
@@ -81,8 +80,6 @@ async function handleCardSetupRequired({
             // The card was declined (i.e. insufficient funds, card has expired, etc)
             throw result;
           } else {
-            console.log("result", result);
-
             if (result.setupIntent.status === "succeeded") {
               // There's a risk of the customer closing the window before callback
               // execution. To handle this case, set up a webhook endpoint and
@@ -105,11 +102,8 @@ async function handlePaymentThatRequiresCustomerAction({
   stripe,
   subscription,
   priceId,
-  invoice,
   paymentMethodId,
-}: {
-  [key: string]: any;
-}) {
+}: PaymentActions) {
   let paymentIntent = subscription.latest_invoice.payment_intent;
 
   if (!paymentIntent) return { subscription, priceId, paymentMethodId };
@@ -136,7 +130,6 @@ async function handlePaymentThatRequiresCustomerAction({
             return {
               priceId: priceId,
               subscription: subscription,
-              invoice: invoice,
               paymentMethodId: paymentMethodId,
             };
           }
