@@ -9,4 +9,4 @@ https://user-images.githubusercontent.com/20818481/116705576-4fba8f80-a9ea-11eb-
 
 ### TODO
 
-- [ ] Add documentation explaining the steps involved integrating stripe metered billing to an existing Data management platform.  
+- [ ] Add documentation explaining the steps involved in integrating stripe metered billing to an existing Data management platform.  
