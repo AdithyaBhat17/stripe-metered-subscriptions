@@ -3,6 +3,7 @@
 import { jsx } from "@emotion/react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { FormEvent, useState } from "react";
+import { useHistory } from "react-router";
 import { useConfig } from "../context/config";
 import { useQueryParam } from "../hooks/useQueryParam";
 import { PrimaryButton } from "../styles";
@@ -34,6 +35,8 @@ export default function CheckoutCard() {
   const [status, setStatus] = useState("idle");
 
   const { csp, users, vm } = useConfig();
+
+  const history = useHistory();
 
   if (!cus || !id) return null;
 
@@ -70,10 +73,11 @@ export default function CheckoutCard() {
       );
 
       if (
-        subscription.subscription.id &&
-        subscription.subscription.status === "active"
+        subscription?.subscription.id &&
+        subscription?.subscription.status === "active"
       ) {
         setStatus("success");
+        history.push(`/subscription?id=${subscription.subscription.id}`);
       } else {
         setStatus("error");
       }
