@@ -34,7 +34,7 @@ export default function Cart({
     });
 
     if ("id" in price && price.id) {
-      history.push(`/checkout?id=${price.id}&cs=${customer}`);
+      history.push(`/checkout?id=${price.id}&cus=${customer}`);
     }
   };
 
