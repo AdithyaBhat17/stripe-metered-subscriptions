@@ -107,6 +107,33 @@ app.post("/create-subscription", async (req, res) => {
   }
 });
 
+app.get("/subscription", async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    if (!id || typeof id !== "string")
+      return res
+        .status(404)
+        .send({ success: false, message: "Invalid subscription ID" });
+
+    const subscription = await stripe.subscriptions.retrieve(id, {
+      expand: ["items.data"],
+    });
+
+    if (!subscription.id)
+      return res
+        .status(400)
+        .send({ success: false, message: "Cannot find subscription" });
+
+    res
+      .status(200)
+      .send({ ...subscription, metadata: subscription.items.data[0].metadata });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
 app.listen("8080", () => {
   console.log("Server running at http://localhost:8080");
 });
