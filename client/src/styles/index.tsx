@@ -90,3 +90,8 @@ export const GridItem = styled.div`
     width: 90%;
   }
 `;
+
+export const Item = styled.p`
+  display: flex;
+  justify-content: space-between;
+`;
