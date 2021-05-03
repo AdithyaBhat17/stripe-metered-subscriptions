@@ -1,6 +1,10 @@
 # Stripe Metered Billing
 
-This repository contains the source code for an example on how to integrate a SaaS product with Stripe metered billing.
+A POC to integrate Stripe metered billing to a SaaS Data Management Platform.  
+
+https://user-images.githubusercontent.com/20818481/116705576-4fba8f80-a9ea-11eb-9ed8-f4a7bad64322.mp4  
+
+This repository contains the source code for an example on how to integrate a SaaS product with Stripe metered billing.  
 
 ### Pre-requisites:
 
